@@ -1,5 +1,5 @@
 # Laravel Messenger
-Creado con Laravel 5.7 y VueJS.
+Creado con Laravel 5.7, VueJS & Vue-Bootstrap.
 
 ## Requerimientos
 https://laravel.com/docs/5.7#server-requirements
