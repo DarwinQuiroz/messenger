@@ -1,5 +1,5 @@
 # Laravel Messenger
-Creado con Laravel 5.7, VueJS & Vue-Bootstrap.
+Creado con Laravel 5.7, VueJS & Bootstrap-Vue.
 
 ## Requerimientos
 https://laravel.com/docs/5.7#server-requirements
@@ -8,7 +8,7 @@ https://laravel.com/docs/5.7#server-requirements
 Clonar Repo
 
 ```
-git clone https://github.com/modulr/laravel-scaffold.git
+git clone https://github.com/DarwinQuiroz/messenger.git
 ```
 
 Entrar a la carpeta que contiene el proyecto
