@@ -8,11 +8,11 @@
         </b-form>
 
 		<b-list-group>
-	        <contact-component variant="dark"></contact-component>
+	        <contact variant="dark"></contact>
 
-	        <contact-component variant=""></contact-component>
+	        <contact variant=""></contact>
 
-	        <contact-component variant="secondary"></contact-component>
+	        <contact variant="secondary"></contact>
 	    </b-list-group>
 	</div>
 </template>

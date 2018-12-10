@@ -20,9 +20,10 @@ Vue.use(BootstrapVue);
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-Vue.component('contact-component', require('./components/ContactComponent.vue'));
-Vue.component('contact-list-component', require('./components/ContactListComponent.vue'));
-Vue.component('active-conversation-component', require('./components/ActiveConversationComponent.vue'));
+Vue.component('contact', require('./components/ContactComponent.vue'));
+Vue.component('contact-list', require('./components/ContactListComponent.vue'));
+Vue.component('active-conversation', require('./components/ActiveConversationComponent.vue'));
+Vue.component('message-conversation', require('./components/MessageConversationComponent.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 
