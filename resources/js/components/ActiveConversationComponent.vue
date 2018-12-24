@@ -46,19 +46,20 @@
         data() {
             return {
                 messages: [],
-                newMessage: ''
+                newMessage: '',
+                contactId: 2
             }
         },
         methods: {
             getMessages(){
-                axios.get('/api/messages').then(res => {
+                axios.get(`/api/messages?contact_id=${this.contactId}`).then(res => {
                     this.messages = res.data;
                     console.log(res.data);
                 });
             },
             postMessage(){
                 const params = {
-                    to_id: 2,
+                    to_id: this.contactId,
                     content: this.newMessage
                 }
                 axios.post('/api/messages', params).then(res => {
