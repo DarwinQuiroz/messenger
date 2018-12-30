@@ -15,7 +15,7 @@ class MessageObserver
      */
     public function created(Message $message)
     {
-        // $conversation = Conversation::whereUserAndContactId($message->from_id, $message->to_id)->first();
+        // $conversation = Conversation::whereUserIdAndContactId($message->from_id, $message->to_id)->first();
 
         $conversation = Conversation::where([
             ['user_id', $message->from_id],

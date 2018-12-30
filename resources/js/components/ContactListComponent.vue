@@ -13,7 +13,11 @@
 	        <contact variant=""></contact>
 
 	        <contact variant="secondary"></contact> -->
-            <contact variant="" v-for="conversation in conversations" :key="conversation.id" :conversation='conversation'>
+            <contact variant="" 
+                    v-for="conversation in conversations" 
+                    :key="conversation.id" 
+                    :conversation='conversation'
+                    @click.native="selectConversation(conversation)">
                 
             </contact>            
 	    </b-list-group>
@@ -35,6 +39,10 @@
                 axios.get('/api/conversations').then(res => {
                     this.conversations = res.data;
                 })
+            },
+            selectConversation(conversation){
+                // console.log(conversation);
+                this.$emit('conversationSelected', conversation);
             }
         }
     }
