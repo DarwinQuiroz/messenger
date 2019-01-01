@@ -1,16 +1,19 @@
 <template>
     <b-row>
         <b-col cols="8">
-            <b-card
+            <b-card no-body
                 footer-bg-variant="light"
                 footer-border-variant="dark"
                 title="Conversación activa"
                 class="h-100">
-                <message-conversation
-                    v-for="message in messages" :key="message.id"
-                    :written-by-me="message.written_by_me">
-                    {{ message.content }}
-                </message-conversation>
+
+                <b-card-body class="card-body-scroll">
+                    <message-conversation
+                        v-for="message in messages" :key="message.id"
+                        :written-by-me="message.written_by_me">
+                        {{ message.content }}
+                    </message-conversation>
+                </b-card-body>
 
                 <div slot="footer">
                     <b-form class="mb-0" @submit.prevent="postMessage" autocomplete="off">
@@ -45,21 +48,15 @@
     export default {
         props: {
             contactId: Number,
+            messages: Array,
             contactName: String
         },
         data() {
             return {
-                messages: [],
                 newMessage: ''
             }
         },
         methods: {
-            getMessages(){
-                axios.get(`/api/messages?contact_id=${this.contactId}`).then(res => {
-                    this.messages = res.data;
-                    console.log(res.data);
-                });
-            },
             postMessage(){
                 const params = {
                     to_id: this.contactId,
@@ -70,19 +67,26 @@
                     if(res.data.success)
                     {
                         this.newMessage = '';
-                        this.getMessages();
                     }
                 });
+            },
+            scrollToBottom() {
+                const el = document.querySelector('.card-body-scroll');
+                el.scrollTop = el.scrollHeight;
             }
         },
         mounted() {
-            this.getMessages();
+            
         },
-        watch: {
-            contactId(value){
-                // console.log(`contactId => ${this.contactId}`)
-                this.getMessages();
-            }
+        updated() {
+            this.scrollToBottom();
         }
     }
 </script>
+
+<style scoped>
+    .card-body-scroll {
+        max-height: calc(100vh - 63px);
+        overflow-y: auto;
+    }
+</style>
