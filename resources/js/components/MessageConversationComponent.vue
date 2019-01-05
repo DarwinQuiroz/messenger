@@ -11,14 +11,6 @@
     export default {
         props: {
             writtenByMe: Boolean
-        },
-        data() {
-            return {
-
-            }
-        },
-        mounted() {
-            // console.log('Component mounted.')
         }
     }
 </script>

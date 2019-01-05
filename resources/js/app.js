@@ -25,6 +25,7 @@ Vue.component('contact-list', require('./components/ContactListComponent.vue'));
 Vue.component('active-conversation', require('./components/ActiveConversationComponent.vue'));
 Vue.component('message-conversation', require('./components/MessageConversationComponent.vue'));
 Vue.component('messenger', require('./components/MessengerComponent.vue'));
+Vue.component('status', require('./components/StatusComponent.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 

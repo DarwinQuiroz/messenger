@@ -32,6 +32,10 @@ class MessageController extends Controller
     	$message->content = $request->content;
     	$saved = $message->save();
 
+		// return $request->json([
+		// 	'success' => $saved,
+    	// 	'message' => $message
+		// ]);
     	return [
     			'success' => $saved,
     			'message' => $message

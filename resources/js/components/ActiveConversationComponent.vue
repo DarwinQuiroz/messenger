@@ -67,6 +67,9 @@
                     if(res.data.success)
                     {
                         this.newMessage = '';
+                        const message = res.data.message;
+                        message.written_by_me = true;
+                        this.$emit('messageCreated', message);
                     }
                 });
             },
@@ -74,9 +77,6 @@
                 const el = document.querySelector('.card-body-scroll');
                 el.scrollTop = el.scrollHeight;
             }
-        },
-        mounted() {
-            
         },
         updated() {
             this.scrollToBottom();
