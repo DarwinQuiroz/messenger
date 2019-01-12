@@ -34,11 +34,6 @@ Generar APP_KEY
 php artisan key:generate
 ```
 
-Generar symbolic link a Storage
-```
-php artisan storage:link
-```
-
 Base de Datos
 
 ```
