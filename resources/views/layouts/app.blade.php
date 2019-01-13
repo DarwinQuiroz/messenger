@@ -10,7 +10,7 @@
     <title>{{ config('app.name', 'Laravel') }}</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ mix('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
@@ -27,7 +27,7 @@
     <div id="app" class="h-100">
         <b-navbar toggleable type="dark" variant="primary">
             <b-navbar-toggle target="nav_text_collapse"></b-navbar-toggle>
-            <b-navbar-brand href="{{ url('/') }}">
+            <b-navbar-brand href="{{ url('/home') }}">
                 {{ config('app.name', 'Messenger') }}
             </b-navbar-brand>
             <b-collapse is-nav id="nav_text_collapse">
@@ -40,6 +40,9 @@
                     @else
                         <!-- Navbar dropdowns -->
                         <b-nav-item-dropdown text="{{ Auth::user()->name }}" right>
+                            <b-dropdown-item href="{{ route('profile.edit') }}">
+                                {{ __('Actualizar Perfl') }}
+                            </b-dropdown-item>
                             <b-dropdown-item href="#" @click="logout">
                                 {{ __('Logout') }}
                             </b-dropdown-item>

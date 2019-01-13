@@ -26,6 +26,7 @@ Vue.component('active-conversation', require('./components/ActiveConversationCom
 Vue.component('message-conversation', require('./components/MessageConversationComponent.vue'));
 Vue.component('messenger', require('./components/MessengerComponent.vue'));
 Vue.component('status', require('./components/StatusComponent.vue'));
+Vue.component('profile', require('./components/ProfileFormComponent.vue'));
 
 // const files = require.context('./', true, /\.vue$/i)
 

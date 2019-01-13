@@ -1,5 +1,5 @@
 @extends('layouts.app')
 
 @section('content')
-	<messenger :user="{{ auth()->user() }}"/>
+<profile :user="{{ auth()->user() }}"/>
 @endsection

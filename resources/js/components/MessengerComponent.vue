@@ -2,15 +2,24 @@
 	<b-container fluid style="height: calc(100vh - 104px);">
 	    <b-row no-gutters>
 	        <b-col cols="4">
+				<b-form class="my-3 mx-2">
+					<b-form-input
+						v-model="querySearch"
+						type="text" class="text-center"
+						placeholder="Buscar contacto..." require >
+					</b-form-input>
+				</b-form>
 	            <contact-list 
 					@conversationSelected="changeActiveConversation($event)"
-					:conversations="conversations"></contact-list>
+					:conversations="conversationsFiltered"></contact-list>
 	        </b-col>
 
 	        <b-col cols="8">
 	            <active-conversation v-if="selectedConversation" 
 	            	:contactId="selectedConversation.contact_id"
 	            	:contactName="selectedConversation.contact_name"
+					:contactImage="selectedConversation.contact_image"
+					:my-image="myImageUrl"
 	            	:messages="messages"
 					@messageCreated="addMessage($event)">
 	            	
@@ -23,13 +32,14 @@
 <script>
 	export default {
 		props: {
-			userId: Number
+			user: Object
 		},
 		data() {
 			return {
 				selectedConversation: null,
 				messages: [],
-				conversations: []
+				conversations: [],
+				querySearch: ''
 			}
 		},
 		methods: {
@@ -56,7 +66,7 @@
 						conversation.contact_id == message.to_id;
 				});
 				
-				const author = this.userId === message.from_id ? 'Tú' : conversation.contact_name;
+				const author = this.user.id === message.from_id ? 'Tú' : conversation.contact_name;
 				conversation.last_message =  `${author}: ${message.content}`;
 				conversation.last_time = message.created_at;
 
@@ -74,10 +84,21 @@
 				if(index >= 0) this.$set(this.conversations[index], 'online', status);
 			}
 		},
+		computed: {
+			conversationsFiltered() {
+				return this.conversations.filter(
+					(conversation) => 
+						conversation.contact_name.toLowerCase()
+						.includes(this.querySearch.toLowerCase()));
+			},
+			myImageUrl(){
+				return `/imgs/users/${this.user.image}`;
+			}
+		},
 		mounted() {
 			this.getConversations();
 			
-			Echo.private(`users.${this.userId}`).listen('MessageSent', (data) => {
+			Echo.private(`users.${this.user.id}`).listen('MessageSent', (data) => {
 				const message = data.message;
 				message.written_by_me = false;
 				this.addMessage(message);
