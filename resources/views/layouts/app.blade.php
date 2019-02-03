@@ -27,7 +27,7 @@
     <div id="app" class="h-100">
         <b-navbar toggleable type="dark" variant="primary">
             <b-navbar-toggle target="nav_text_collapse"></b-navbar-toggle>
-            <b-navbar-brand href="{{ url('/home') }}">
+            <b-navbar-brand href="{{ route('chat') }}">
                 {{ config('app.name', 'Messenger') }}
             </b-navbar-brand>
             <b-collapse is-nav id="nav_text_collapse">

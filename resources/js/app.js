@@ -7,9 +7,16 @@
 
 require('./bootstrap');
 
-window.Vue = require('vue');
+// window.Vue = require('vue');
 import BootstrapVue from 'bootstrap-vue'
+import Vue from 'vue'
+import VueRouter from 'vue-router'
 
+import store from './store'
+import MessengerComponent from './components/MessengerComponent.vue'
+
+
+Vue.use(VueRouter)
 Vue.use(BootstrapVue);
 
 /**
@@ -24,24 +31,25 @@ Vue.component('contact', require('./components/ContactComponent.vue'));
 Vue.component('contact-list', require('./components/ContactListComponent.vue'));
 Vue.component('active-conversation', require('./components/ActiveConversationComponent.vue'));
 Vue.component('message-conversation', require('./components/MessageConversationComponent.vue'));
-Vue.component('messenger', require('./components/MessengerComponent.vue'));
+// Vue.component('messenger', require('./components/MessengerComponent.vue'));
 Vue.component('status', require('./components/StatusComponent.vue'));
 Vue.component('profile', require('./components/ProfileFormComponent.vue'));
+Vue.component('contact-form', require('./components/ContactFormComponent.vue'));
 
-// const files = require.context('./', true, /\.vue$/i)
-
-// files.keys().map(key => {
-//     return Vue.component(_.last(key.split('/')).split('.')[0], files(key))
-// })
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
+const routes = [
+    { path: '/chat', component: MessengerComponent },
+    { path: '/chat/:conversationId', component: MessengerComponent }
+];
+  
+const router = new VueRouter({
+    routes,
+    mode: 'history'
+});
 
 const app = new Vue({
     el: '#app',
+    store,
+    router,
     methods: {
     	logout(){
     		document.getElementById('logout-form').submit();

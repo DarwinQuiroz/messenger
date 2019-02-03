@@ -2,30 +2,16 @@
 	<b-container fluid style="height: calc(100vh - 104px);">
 	    <b-row no-gutters>
 	        <b-col cols="4">
-				<b-form class="my-3 mx-2">
-					<b-form-input
-						v-model="querySearch"
-						type="text" class="text-center"
-						placeholder="Buscar contacto..." require >
-					</b-form-input>
-				</b-form>
-	            <contact-list 
-					@conversationSelected="changeActiveConversation($event)"
-					:conversations="conversationsFiltered"></contact-list>
+				<contact-form />
+	            <contact-list />
 	        </b-col>
 
 	        <b-col cols="8">
-	            <active-conversation v-if="selectedConversation" 
-	            	:contactId="selectedConversation.contact_id"
-	            	:contactName="selectedConversation.contact_name"
-					:contactImage="selectedConversation.contact_image"
-					:my-image="myImageUrl"
-	            	:messages="messages"
-					@messageCreated="addMessage($event)">
-	            	
-	            </active-conversation>
+	            <active-conversation v-if="selectedConversation" />
 	        </b-col>
 	    </b-row>
+
+		<!-- <button @click="getConversation(conversationId)">Conversation</button> -->
 	</b-container>
 </template>
 
@@ -34,69 +20,34 @@
 		props: {
 			user: Object
 		},
-		data() {
-			return {
-				selectedConversation: null,
-				messages: [],
-				conversations: [],
-				querySearch: ''
-			}
-		},
 		methods: {
-			getConversations(){
-                axios.get('/api/conversations').then(res => {
-                    this.conversations = res.data;
-                })
-            },
-			getMessages(){
-                axios.get(`/api/messages?contact_id=${this.selectedConversation.contact_id}`)
-                .then(res => {
-                    this.messages = res.data;
-                    // console.log(res.data);
-                });
-            },
-			changeActiveConversation(conversation){
-				// console.log('Conversacion seleccionada', conversation);
-				this.selectedConversation = conversation;
-				this.getMessages();
-			},
-			addMessage(message) {
-				const conversation = this.conversations.find((conversation) => {
-					return conversation.contact_id == message.from_id ||
-						conversation.contact_id == message.to_id;
-				});
-				
-				const author = this.user.id === message.from_id ? 'Tú' : conversation.contact_name;
-				conversation.last_message =  `${author}: ${message.content}`;
-				conversation.last_time = message.created_at;
-
-				if(this.selectedConversation.contact_id == message.from_id 
-					|| this.selectedConversation.contact_id == message.to_id)
-				{
-					this.messages.push(message);
-				}
-			},
 			changeStatus(user, status){
-				const index = this.conversations.findIndex((conversation) => {
+				const index = this.$store.state.conversations.findIndex((conversation) => {
 					return conversation.contact_id == user.id;
 				});
 
-				if(index >= 0) this.$set(this.conversations[index], 'online', status);
+				if(index >= 0) this.$set(this.$store.state.conversations[index], 'online', status);
+			},
+			addMessage(message){
+				this.$store.commit('addMessage', message);
 			}
 		},
 		computed: {
-			conversationsFiltered() {
-				return this.conversations.filter(
-					(conversation) => 
-						conversation.contact_name.toLowerCase()
-						.includes(this.querySearch.toLowerCase()));
-			},
-			myImageUrl(){
-				return `/imgs/users/${this.user.image}`;
+			selectedConversation(){
+				return this.$store.state.selectedConversation;
 			}
 		},
 		mounted() {
-			this.getConversations();
+			this.$store.commit('setUser', this.user);
+			this.$store.dispatch('getConversations')
+			.then(() => {
+				const conversationId = this.$route.params.conversationId;
+				if(conversationId)
+				{
+					const conversation = this.$store.getters.getConversationById(conversationId);
+					this.$store.dispatch('getMessages', conversation);
+				}
+			});
 			
 			Echo.private(`users.${this.user.id}`).listen('MessageSent', (data) => {
 				const message = data.message;
